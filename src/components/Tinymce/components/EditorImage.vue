@@ -1,24 +1,31 @@
 <template>
   <div class="upload-container">
-    <a-button :style="{ background: color, borderColor: color }" icon="cloud-upload" size="small" type="primary" @click="dialogVisible = true"
-      >上传图片</a-button
-    >
-    <a-modal :visible.sync="dialogVisible" title="上传图片" @cancel="handleDialogCancel" @ok="handleDialogOk">
-      <a-upload
-        class="editor-slide-upload"
-        list-type="picture-card"
-        :multiple="true"
-        :fileList="fileList"
-        :action="upLoadImgUrl"
-        @change="handleChange"
-        @preview="handlePreview"
-      >
+    <a-button :style="{ background: color, borderColor: color }"
+              icon="cloud-upload"
+              size="small"
+              type="primary"
+              @click="dialogVisible = true">上传图片</a-button>
+    <a-modal :visible.sync="dialogVisible"
+             title="上传图片"
+             @cancel="handleDialogCancel"
+             @ok="handleDialogOk">
+      <a-upload class="editor-slide-upload"
+                list-type="picture-card"
+                :multiple="true"
+                :fileList="fileList"
+                :action="upLoadImgUrl"
+                @change="handleChange"
+                @preview="handlePreview">
         <div v-if="fileList.length < 8">
           <a-icon type="plus" />
           <div class="ant-upload-text">点击上传</div>
         </div>
-        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-          <img alt="example" style="width: 100%" :src="previewImage" />
+        <a-modal :visible="previewVisible"
+                 :footer="null"
+                 @cancel="handleCancel">
+          <img alt="example"
+               style="width: 100%"
+               :src="previewImage" />
         </a-modal>
       </a-upload>
     </a-modal>
@@ -26,7 +33,7 @@
 </template>
 
 <script>
-function getBase64(file) {
+function getBase64 (file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -42,51 +49,38 @@ export default {
       default: '#1890ff',
     },
   },
-  data() {
+  data () {
     return {
       previewVisible: false,
       dialogVisible: false,
       previewImage: '',
-      fileList: [
-        {
-          uid: '-1',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-2',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-      ],
-      upLoadImgUrl: process.env.VUE_APP_BASE_API_UPLOAD,
+      fileList: [],
+      upLoadImgUrl: process.env.VUE_APP_API_BASE_URL + 'infomation/uploadImg ',
     }
   },
   methods: {
-    init() {
+    init () {
       this.fileList = []
       this.imgList = {}
     },
-    handleCancel() {
+    handleCancel () {
       this.previewVisible = false
     },
-    async handlePreview(file) {
+    async handlePreview (file) {
       if (!file.url && !file.preview) {
         file.preview = await getBase64(file.originFileObj)
       }
       this.previewImage = file.url || file.preview
       this.previewVisible = true
     },
-    handleChange({ fileList }) {
+    handleChange ({ fileList }) {
       this.fileList = fileList
     },
-    handleDialogCancel() {
+    handleDialogCancel () {
       this.dialogVisible = false
       this.init()
     },
-    handleDialogOk() {
+    handleDialogOk () {
       this.dialogVisible = false
       if (this.fileList.length > 0) {
         this.$emit('successCBK', this.fileList)

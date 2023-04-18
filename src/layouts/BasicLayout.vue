@@ -7,20 +7,20 @@
               :closable="false"
               :visible="collapsed"
               @close="drawerClose">
-      <side-menu mode="inline"
-                 :menus="menus"
-                 :theme="navTheme"
-                 :collapsed="false"
-                 :collapsible="true"
-                 @menuSelect="menuSelect"></side-menu>
+      <SideMenu mode="inline"
+                :menus="menus"
+                :theme="navTheme"
+                :collapsed="false"
+                :collapsible="true"
+                @menuSelect="menuSelect" />
     </a-drawer>
 
-    <side-menu v-else-if="isSideMenu()"
-               mode="inline"
-               :menus="menus"
-               :theme="navTheme"
-               :collapsed="collapsed"
-               :collapsible="true"></side-menu>
+    <SideMenu v-else-if="isSideMenu()"
+              mode="inline"
+              :menus="menus"
+              :theme="navTheme"
+              :collapsed="collapsed"
+              :collapsible="true" />
 
     <a-layout :class="[layoutMode, `content-width-${contentWidth}`]"
               :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">

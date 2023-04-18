@@ -3,9 +3,6 @@ import {
   notFoundRouter
 } from '@/router/router.config'
 
-import {
-  permissionList
-} from '@/utils/util'
 
 import store from "@/store"
 
@@ -69,9 +66,6 @@ export const generatorDynamicRouter = () => {
       //     const childrenNav = res.data
       //     // 后端数据, 根级树数组,  根级 PID
       //     // listToTree(result, childrenNav, 0)
-      //     if (permissionList.includes(userName)) {
-      //       rootRouter.redirect = childrenNav[0].path
-      //     }
       //     rootRouter.children = childrenNav
       //     menuNav.push(rootRouter)
       //     // console.log('menuNav', menuNav)

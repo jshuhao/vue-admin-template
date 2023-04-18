@@ -1,9 +1,9 @@
 <template>
-  <div class="router-layout">
+  <div class="router-layout height-100">
     <transition name="fade-transform"
                 mode="out-in">
 
-      <div>
+      <div class="height-100">
         <keep-alive :exclude="excludeViews">
           <router-view :key="key"
                        v-if="keepAlive" />
@@ -29,7 +29,7 @@ export default {
       return this.$route.path
     },
     keepAlive () {
-      return this.$route.meta.keepAlive === 'false' ? false : true
+      return this.$route.meta.keepAlive
     }
   }
   /*   render() {

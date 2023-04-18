@@ -23,8 +23,8 @@ export default {
       this.breadList = []
       this.name = this.$route.name
       this.$route.matched.forEach((item) => {
-        // item.name !== 'index' && this.breadList.push(item)
-        this.breadList.push(item)
+        item.name !== 'home' && this.breadList.push(item)
+        // this.breadList.push(item)
       })
     },
   },

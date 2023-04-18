@@ -8,9 +8,6 @@ import {
   axios
 } from "./request"
 
-
-export const permissionList = ['sl', 'zdy']
-
 export function timeFix() {
   const time = new Date()
   const hour = time.getHours()

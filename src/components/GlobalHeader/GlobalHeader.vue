@@ -1,25 +1,41 @@
 <template>
   <transition name="showHeader">
-    <div v-if="visible" class="header-animat" :class="multiTab ? 'multi-tab' : ''">
-      <a-layout-header
-        v-if="visible"
-        :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed']"
-        :style="{ padding: '0' }"
-      >
-        <div v-if="mode === 'sidemenu'" class="header">
+    <div v-if="visible"
+         class="header-animat"
+         :class="multiTab ? 'multi-tab' : ''">
+      <a-layout-header v-if="visible"
+                       :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed']"
+                       :style="{ padding: '0' }">
+        <div v-if="mode === 'sidemenu'"
+             class="header">
           <header>
-            <a-icon v-if="device === 'mobile'" class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle" />
-            <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle" />
-            <user-menu></user-menu>
+            <a-icon v-if="device === 'mobile'"
+                    class="trigger"
+                    :type="collapsed ? 'menu-fold' : 'menu-unfold'"
+                    @click="toggle" />
+            <a-icon v-else
+                    class="trigger"
+                    :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                    @click="toggle" />
+            <Breadcrumb />
+            <UserMenu />
           </header>
           <multi-tab v-if="multiTab"></multi-tab>
         </div>
-        <div v-else :class="['top-nav-header-index', theme]">
+        <div v-else
+             :class="['top-nav-header-index', theme]">
           <div class="header-index-wide">
             <div class="header-index-left">
-              <logo class="top-nav-header" :show-title="device !== 'mobile'" />
-              <s-menu v-if="device !== 'mobile'" mode="horizontal" :menu="menus" :theme="theme" />
-              <a-icon v-else class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle" />
+              <Logo class="top-nav-header"
+                    :show-title="device !== 'mobile'" />
+              <s-menu v-if="device !== 'mobile'"
+                      mode="horizontal"
+                      :menu="menus"
+                      :theme="theme" />
+              <a-icon v-else
+                      class="trigger"
+                      :type="collapsed ? 'menu-fold' : 'menu-unfold'"
+                      @click="toggle" />
             </div>
             <user-menu class="header-index-right"></user-menu>
           </div>
@@ -34,6 +50,7 @@ import UserMenu from '../tools/UserMenu'
 import SMenu from '../Menu/'
 import Logo from '../tools/Logo'
 import { mixin } from '@/utils/mixin'
+import Breadcrumb from '@/components/tools/Breadcrumb'
 
 export default {
   name: 'GlobalHeader',
@@ -41,6 +58,7 @@ export default {
     UserMenu,
     SMenu,
     Logo,
+    Breadcrumb
   },
   mixins: [mixin],
   props: {
@@ -69,21 +87,20 @@ export default {
       default: 'desktop',
     },
   },
-  data() {
+  data () {
     return {
       visible: true,
       oldScrollTop: 0,
     }
   },
-  mounted() {
+  mounted () {
     // document.addEventListener('scroll', this.handleScroll, { passive: true })
   },
   methods: {
-    handleScroll() {
+    handleScroll () {
       if (!this.autoHideHeader) {
         return
       }
-
       const scrollTop = document.body.scrollTop + document.documentElement.scrollTop
       if (!this.ticking) {
         this.ticking = true
@@ -100,11 +117,11 @@ export default {
         })
       }
     },
-    toggle() {
+    toggle () {
       this.$emit('toggle')
     },
   },
-  beforeDestroy() {
+  beforeDestroy () {
     document.body.removeEventListener('scroll', this.handleScroll, true)
   },
 }
@@ -146,6 +163,11 @@ export default {
       height: 64px;
       box-shadow: 0 1px 4px #ddd;
       .clearfix();
+      .breadcrumb {
+        display: inline-block;
+        position: relative;
+        top: -3px;
+      }
     }
   }
   .ant-pro-multi-tab {

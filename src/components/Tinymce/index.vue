@@ -1,8 +1,13 @@
 <template>
-  <div :class="{ fullscreen: fullscreen }" class="tinymce-container" :style="{ width: containerWidth }">
-    <textarea :id="tinymceId" class="tinymce-textarea" />
+  <div :class="{ fullscreen: fullscreen }"
+       class="tinymce-container"
+       :style="{ width: containerWidth }">
+    <textarea :id="tinymceId"
+              class="tinymce-textarea" />
     <div class="editor-custom-btn-container">
-      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
+      <editorImage color="#1890ff"
+                   class="editor-upload-btn"
+                   @successCBK="imageSuccessCBK" />
     </div>
   </div>
 </template>
@@ -15,10 +20,10 @@
 import editorImage from './components/EditorImage'
 import plugins from './plugins'
 import toolbar from './toolbar'
-import load from './dynamicLoadScript'
+// import load from './dynamicLoadScript'
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+// const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
@@ -37,7 +42,7 @@ export default {
     toolbar: {
       type: Array,
       required: false,
-      default() {
+      default () {
         return []
       },
     },
@@ -56,7 +61,7 @@ export default {
       default: 'auto',
     },
   },
-  data() {
+  data () {
     return {
       hasChange: false,
       hasInit: false,
@@ -71,7 +76,7 @@ export default {
     }
   },
   computed: {
-    containerWidth() {
+    containerWidth () {
       const width = this.width
       if (/^[\d]+(\.[\d]+)?$/.test(width)) {
         // matches `100`, `'100'`
@@ -81,45 +86,45 @@ export default {
     },
   },
   watch: {
-    value(val) {
+    value (val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() => window.tinymce.get(this.tinymceId).setContent(val || ''))
       }
     },
   },
-  mounted() {
+  mounted () {
     this.init()
   },
-  activated() {
+  activated () {
     if (window.tinymce) {
       this.initTinymce()
     }
   },
-  deactivated() {
+  deactivated () {
     this.destroyTinymce()
   },
-  destroyed() {
+  destroyed () {
     this.destroyTinymce()
   },
   methods: {
-    init() {
+    init () {
       // dynamic load tinymce from cdn
-      load(tinymceCDN, (err) => {
-        if (err) {
-          this.$message.error(err.message)
-          return
-        }
-        this.initTinymce()
-      })
+      // load(tinymceCDN, (err) => {
+      //   if (err) {
+      //     this.$message.error(err.message)
+      //     return
+      //   }
+      // })
+      this.initTinymce()
     },
-    initTinymce() {
+    initTinymce () {
       const _this = this
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
         language: this.languageTypeList['zh'],
         height: this.height,
         body_class: 'panel-body ',
-        object_resizing: false,
+        // object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,
         plugins: plugins,
@@ -146,7 +151,7 @@ export default {
           // 解决通过 multiTab 切换标签编辑器隐藏的问题
           document.getElementById(this.tinymceId).style.display = 'block'
         },
-        setup(editor) {
+        setup (editor) {
           editor.on('FullscreenStateChanged', (e) => {
             _this.fullscreen = e.state
           })
@@ -186,7 +191,7 @@ export default {
         // },
       })
     },
-    destroyTinymce() {
+    destroyTinymce () {
       const tinymce = window.tinymce.get(this.tinymceId)
       if (this.fullscreen) {
         tinymce.execCommand('mceFullScreen')
@@ -195,23 +200,24 @@ export default {
         tinymce.destroy()
       }
     },
-    setContent(value) {
+    setContent (value) {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
-    getContent() {
-      window.tinymce.get(this.tinymceId).getContent()
+    getContent () {
+      return window.tinymce.get(this.tinymceId).getContent()
     },
-    imageSuccessCBK(arr) {
+    imageSuccessCBK (arr) {
       // 此处可根据实际接口返回数据去处理图片拼接
       const _this = this
+      console.log('arr', arr)
       arr.forEach((v) => {
         let src = ''
         if (v.url) {
           src = v.url
         } else {
-          src = v.response.files.file
+          src = v.response.data.imgUrl
         }
-        window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${src}" >`)
+        window.tinymce.get(_this.tinymceId).insertContent(`<img style="max-width:100%;height:auto;display:block;margin-top:0;margin-bottom:0;"' class="wscnph" src="${src}" >`)
       })
     },
   },

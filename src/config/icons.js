@@ -17,6 +17,10 @@ export {
 }
 from '@ant-design/icons/lib/outline/CheckCircleOutline'
 export {
+  default as PlusSquareOutline
+}
+from '@ant-design/icons/lib/outline/PlusSquareOutline'
+export {
   default as InfoCircleOutline
 }
 from '@ant-design/icons/lib/outline/InfoCircleOutline'
@@ -28,6 +32,14 @@ export {
   default as ExclamationCircleOutline
 }
 from '@ant-design/icons/lib/outline/ExclamationCircleOutline'
+export {
+  default as PlusCircleOutline
+}
+from '@ant-design/icons/lib/outline/PlusCircleOutline'
+export {
+  default as QuestionCircleOutline
+}
+from '@ant-design/icons/lib/outline/QuestionCircleOutline'
 export {
   default as CheckCircleFill
 }
